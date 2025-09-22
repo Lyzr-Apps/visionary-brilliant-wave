@@ -13,6 +13,7 @@ export default function BouncingBall() {
   const [ballVel, setBallVel] = useState({ x: 2, y: 2 });
   const [squarePos, setSquarePos] = useState({ x: 50, y: 50 });
   const [squareVel, setSquareVel] = useState({ x: 2.5, y: 3 });
+  const [squareRot, setSquareRot] = useState(0);
   const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -65,6 +66,7 @@ export default function BouncingBall() {
         setSquareVel({ x: newVelX, y: newVelY });
         return { x: nextX, y: nextY };
       });
+      setSquareRot(prev => (prev + 7) % 360);
       animationRef.current = requestAnimationFrame(animate);
     }
     animationRef.current = requestAnimationFrame(animate);
@@ -89,7 +91,7 @@ export default function BouncingBall() {
           transition: 'none',
         }}
       />
-      {/* Bouncing Square */}
+      {/* Rotating Bouncing Square */}
       <div
         className="absolute bg-blue-500 shadow-lg"
         style={{
@@ -99,6 +101,7 @@ export default function BouncingBall() {
           top: squarePos.y,
           transition: 'none',
           borderRadius: 8,
+          transform: `rotate(${squareRot}deg)`,
         }}
       />
     </div>
